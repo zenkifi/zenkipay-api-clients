@@ -23,4 +23,4 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: release-candidate
-          arguments: -b build-java.gradle clean
+          arguments: -b build-java.gradle clean openApiValidate openApiGenerate changePermission
