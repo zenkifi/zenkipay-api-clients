@@ -24,7 +24,7 @@ jobs:
           path: zenkipay-api
 
       - name: List content
-      - run: |
+        run: |
           echo "HOME -> $HOME"
           echo "$GITHUB_PATH -> $GITHUB_PATH"
           ls -la
