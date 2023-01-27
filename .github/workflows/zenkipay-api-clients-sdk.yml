@@ -26,9 +26,11 @@ jobs:
       - name: List content
         run: |
           echo "HOME -> $HOME"
-          echo "$GITHUB_PATH -> $GITHUB_PATH"
+          echo "GITHUB_PATH -> $GITHUB_PATH"
           ls -la
-          cat src/main/resources/Zenkipay-API-v1-EN.yaml
+          cat zenkipay-api/src/main/resources/Zenkipay-API-v1-ES.yaml
+          cp zenkipay-api/src/main/resources/Zenkipay-API-v1-ES.yaml src/main/resources/
+          ls -la src/main/resources/
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
