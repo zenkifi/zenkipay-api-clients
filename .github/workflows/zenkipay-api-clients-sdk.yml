@@ -28,6 +28,11 @@ jobs:
           echo "HOME -> $HOME"
           echo "GITHUB_PATH -> $GITHUB_PATH"
           ls -la
+          ls -la zenkipay-api
+          ls -la zenkipay-api/src
+          ls -la zenkipay-api/src/main
+          ls -la zenkipay-api/src/main/resources
+          ls -la src/main/resources
           cat zenkipay-api/src/main/resources/Zenkipay-API-v1-ES.yaml
           cp zenkipay-api/src/main/resources/Zenkipay-API-v1-ES.yaml src/main/resources/
           ls -la src/main/resources/
