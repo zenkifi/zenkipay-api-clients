@@ -30,7 +30,10 @@ jobs:
           echo "Borrando archivo de especificación"
           rm src/main/resources/Zenkipay-API-v1-EN.yaml
           echo "Actualizando archivo de especificación"
+          ls -la src/main/resources/
           cp zenkipay-api/Zenkipay-API-v1-ES.yaml src/main/resources/
+          ls -la src/main/resources/
+          pwd
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3

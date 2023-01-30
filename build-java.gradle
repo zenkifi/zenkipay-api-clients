@@ -44,6 +44,7 @@ openApiGenerate {
     //remoteInputSpec = "https://github.com/zenkifi/zenkipay-api/blob/main/Zenkipay-API-v1-EN.yaml".toString()
     outputDir = "$projectDir/build/zenkipay-sdk/java".toString()
     validateSpec = true
+    logger.info("projectDir:  $projectDir", "info")
 
     // Project Properties
     invokerPackage = "fi.zenki.zenkipay.api"
