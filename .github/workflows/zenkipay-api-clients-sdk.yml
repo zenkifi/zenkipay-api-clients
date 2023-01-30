@@ -68,6 +68,8 @@ jobs:
           mvn clean compile package --file pom.xml
           
           echo "Creando directorio con la versión por liberar"
+          mkdir ../../../Release
+          mkdir ../../../Release/SDK-Java
           mkdir ../../../Release/SDK-Java/v1.0.0
           
           echo "Moviendo artefactos para hacer commit"
