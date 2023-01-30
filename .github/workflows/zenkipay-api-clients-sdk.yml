@@ -74,7 +74,7 @@ jobs:
           
           echo "Moviendo artefactos para hacer commit"
           cp target/zenkipay-api-client-1.0.0-RELEASE.jar ../../../Release/SDK-Java/v1.0.0/
-          cp target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ./../../Release/SDK-Java/v1.0.0/
+          cp target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ../../../Release/SDK-Java/v1.0.0/
           pwd
           ls -la
 
