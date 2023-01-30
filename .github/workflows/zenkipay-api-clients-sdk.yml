@@ -42,10 +42,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-
+      - name: Configurando Gradlew
+        uses: gradle/gradle-build-action@v2
+        with:
+          gradle-version: release-candidate
 
       - name: SDK Java - Ejecutando Gradlew para generar los SDK's
         run: |
+          echo "Verificando archivo"
+          cat /home/runner/work/zenkipay-api-clients-sdk/zenkipay-api-clients-sdk/src/main/resources/Zenkipay-API-v1-EN.yaml
           echo "Ejecutando gradlew"
            ./gradlew --stacktrace -b build-java.gradle clean openApiValidate openApiGenerate changePermission
 
