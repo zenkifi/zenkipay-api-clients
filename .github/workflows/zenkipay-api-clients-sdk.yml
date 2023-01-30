@@ -67,7 +67,6 @@ jobs:
           ls -la
 
       - name: Subiendo librerías de SDK Java
-        uses: actions/checkout@v3
         run: |
           date > generated.txt
           git config user.name github-actions
