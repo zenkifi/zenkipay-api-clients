@@ -42,11 +42,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Ejecutando Gradlew para generar los SDK's
+      - name: Configurando Gradlew
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: release-candidate
-          arguments: -b build-java.gradle clean openApiValidate openApiGenerate changePermission
+
+      - name: SDK Java - Ejecutando Gradlew para generar los SDK's
+        run: |
+          echo "Ejecutando gradlew"
+           ./gradlew -b build-java.gradle clean openApiValidate openApiGenerate changePermission
 
       - name: SDK Java - Ejecutando maven para generar librerías de cliente
         run: |
