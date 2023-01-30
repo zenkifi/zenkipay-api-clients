@@ -68,11 +68,11 @@ jobs:
           mvn clean compile package --file pom.xml
           
           echo "Creando directorio con la versión por liberar"
-          mkdir ../../../Release/SDK\ Java/v1.0.0
+          mkdir ../../../Release/SDK-Java/v1.0.0
           
           echo "Moviendo artefactos para hacer commit"
-          cp target/zenkipay-api-client-1.0.0-RELEASE.jar ../../../Release/SDK\ Java/v1.0.0/
-          cp target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ./../../Release/SDK\ Java/v1.0.0/
+          cp target/zenkipay-api-client-1.0.0-RELEASE.jar ../../../Release/SDK-Java/v1.0.0/
+          cp target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ./../../Release/SDK-Java/v1.0.0/
           pwd
           ls -la
 
