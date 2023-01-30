@@ -29,16 +29,10 @@ jobs:
           echo "GITHUB_PATH -> $GITHUB_PATH"
 
           echo "Borrando archivo de especificación"
-          ls -la src/main/resources/
           rm src/main/resources/Zenkipay-API-v1-EN.yaml
 
           echo "Actualizando archivo de especificación"
-          ls -la src/main/resources/
-          ls -la zenkipay-api/
           cp zenkipay-api/Zenkipay-API-v1-EN.yaml src/main/resources/
-          ls -la src/main/resources/
-          pwd
-          ls -la
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -53,8 +47,6 @@ jobs:
 
       - name: SDK Java - Ejecutando Gradlew para generar los SDK's
         run: |
-          echo "Verificando archivo"
-          cat /home/runner/work/zenkipay-api-clients-sdk/zenkipay-api-clients-sdk/src/main/resources/Zenkipay-API-v1-EN.yaml
           echo "Ejecutando gradlew"
            ./gradlew --stacktrace -b build-java.gradle clean openApiValidate openApiGenerate changePermission
 
@@ -69,14 +61,18 @@ jobs:
         run: |
           echo "Actual Path"
           pwd
-          echo "Creando directorio con la versión por liberar"
-          mkdir Release/SDK Java/v1.0.0
+          ls -la
           echo "Ejecutando Maven"
           cd build/zenkipay-sdk/java/
+          ls -la
           mvn clean compile package --file pom.xml
+          
+          echo "Creando directorio con la versión por liberar"
+          mkdir ../../../Release/SDK\ Java/v1.0.0
+          
           echo "Moviendo artefactos para hacer commit"
-          cp target/zenkipay-api-client-1.0.0-RELEASE.jar ../../../Release/SDK Java/v1.0.0/
-          cp target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ./../../Release/SDK Java/v1.0.0/
+          cp target/zenkipay-api-client-1.0.0-RELEASE.jar ../../../Release/SDK\ Java/v1.0.0/
+          cp target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ./../../Release/SDK\ Java/v1.0.0/
           pwd
           ls -la
 
