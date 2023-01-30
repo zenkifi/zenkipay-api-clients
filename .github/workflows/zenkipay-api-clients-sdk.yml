@@ -80,7 +80,6 @@ jobs:
 
       - name: Subiendo librerías de SDK Java
         run: |
-          cd ../../../
           pwd
           ls -la
           ls -la Release/SDK-Java/v1.0.0/
