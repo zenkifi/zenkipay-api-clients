@@ -27,11 +27,15 @@ jobs:
         run: |
           echo "HOME -> $HOME"
           echo "GITHUB_PATH -> $GITHUB_PATH"
+
           echo "Borrando archivo de especificación"
+          ls -la src/main/resources/
           rm src/main/resources/Zenkipay-API-v1-EN.yaml
+
           echo "Actualizando archivo de especificación"
           ls -la src/main/resources/
-          cp zenkipay-api/Zenkipay-API-v1-ES.yaml src/main/resources/
+          ls -la zenkipay-api/
+          cp zenkipay-api/Zenkipay-API-v1-EN.yaml src/main/resources/
           ls -la src/main/resources/
           pwd
           ls -la
