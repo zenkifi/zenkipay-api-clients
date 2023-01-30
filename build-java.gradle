@@ -25,6 +25,7 @@ dependencies {
 }
 
 openApiValidate {
+    logger.info("projectDir:  $projectDir", "info")
     inputSpec = "$projectDir/src/main/resources/Zenkipay-API-v1-EN.yaml".toString()
     recommend = true
 }

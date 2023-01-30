@@ -34,6 +34,7 @@ jobs:
           cp zenkipay-api/Zenkipay-API-v1-ES.yaml src/main/resources/
           ls -la src/main/resources/
           pwd
+          ls -la
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
