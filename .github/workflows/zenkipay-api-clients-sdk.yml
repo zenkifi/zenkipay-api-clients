@@ -80,10 +80,14 @@ jobs:
 
       - name: Subiendo librerías de SDK Java
         run: |
+          cd ../../../
+          pwd
+          ls -la
+          ls -la Release/SDK-Java/v1.0.0/
           date > generated.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add target/zenkipay-api-client-1.0.0-RELEASE.jar
-          git add target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar
+          git add Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE.jar
+          git add Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar
           git commit -m "Se suben cambios a clientes SDK por cambios en la especificación de API"
           git push
