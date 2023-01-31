@@ -118,7 +118,7 @@ jobs:
 
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE.jar
-          git add zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar
+          git add Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE.jar
+          git add Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar
           git commit -m "Se suben cambios a clientes SDK por cambios en la especificación de API"
           git push
