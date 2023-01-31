@@ -121,7 +121,6 @@ jobs:
           cp -rfv gradle ../../../zenkipay-api-sdk-java
           cp -rfv src ../../../zenkipay-api-sdk-java
           cp -rfv .gitignore ../../../zenkipay-api-sdk-java
-          cp -rfv .openapi-generator-ignore ../../../zenkipay-api-sdk-java
           cp -rfv build.gradle ../../../zenkipay-api-sdk-java
           cp -rfv gradle.properties ../../../zenkipay-api-sdk-java
           cp -rfv gradlew ../../../zenkipay-api-sdk-java
@@ -172,11 +171,7 @@ jobs:
           git add gradle
           git add src
           git add .gitignore
-          git add .openapi-generator-ignore
-          git add .travis.yml
           git add build.gradle
-          git add build.sbt
-          git add git_push.sh
           git add gradle.properties
           git add gradlew
           git add gradlew.bat
