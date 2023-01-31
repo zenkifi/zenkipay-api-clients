@@ -152,7 +152,7 @@ jobs:
           echo "README con badge"
           cat README.md
           
-          sed 's/# zenkipay-api-client/# Zenkipay API Client/g' README.md > README_tmp.md
+          sed 's/# zenkipay-api-client/# Zenkipay API SDK for JAVA/g' README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
           
