@@ -44,8 +44,11 @@ jobs:
           echo "Generando archivo build para compilar version actual en librerías"
           NewVersion=$(cat ZenkipayApiLastVersion.txt)
           echo $NewVersion
+          echo "NewVersion=${NewVersion}" >> $GITHUB_ENV
+          echo "${{ env.NewVersion }}"
           sed "s/@:VERSION:@/$NewVersion/g" template-build-java.gradle > build-java.gradle
           cat build-java.gradle
+          
 
 
       - name: Set up JDK 17
@@ -86,6 +89,7 @@ jobs:
       - name: SDK Java - Moviendo artefactos a directorio de liberaciones
         run: |
           echo "Actual Path"
+          echo "${{ env.NewVersion }}"
           pwd
           ls -la
           cd build/zenkipay-sdk/java/
@@ -99,16 +103,19 @@ jobs:
             echo "Dir ../../../zenkipay-api-sdk-java/Release exists."
           else
             mkdir ../../../zenkipay-api-sdk-java/Release
+            echo "Dir ../../../zenkipay-api-sdk-java/Release created."
           fi
           if test -d "../../../zenkipay-api-sdk-java/Release/SDK-Java"; then
             echo "Dir ../../../zenkipay-api-sdk-java/Release/SDK-Java exists."
           else
             mkdir ../../../zenkipay-api-sdk-java/Release/SDK-Java
+            echo "Dir ../../../zenkipay-api-sdk-java/Release/SDK-Java created."
           fi
           if test -d "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion"; then
             echo "Dir ../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion exists."
           else
             mkdir "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion"
+            echo "Dir ../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion created."
           fi
           
           ls -la ../../../
