@@ -23,6 +23,12 @@ jobs:
           repository: zenkifi/zenkipay-api
           path: zenkipay-api
 
+      - name: Checkout repository zenkipay-api
+        uses: actions/checkout@v3
+        with:
+          repository: zenkifi/zenkipay-api-sdk-java
+          path: zenkipay-api-sdk-java
+
       - name: Actualizando especificación de Zenkipay API
         run: |
           echo "HOME -> $HOME"
@@ -68,36 +74,44 @@ jobs:
           mvn clean compile package --file pom.xml
           
           echo "Creando directorio con la versión por liberar"
-          if test -d "../../../Release"; then
-            echo "Dir ../../../Release exists."
+          if test -d "../../../zenkipay-api-sdk-java/Release"; then
+            echo "Dir ../../../zenkipay-api-sdk-java/Release exists."
           else
-            mkdir ../../../Release
+            mkdir ../../../zenkipay-api-sdk-java/Release
           fi
-          if test -d "../../../Release/SDK-Java"; then
-            echo "Dir ../../../Release/SDK-Java exists."
+          if test -d "../../../zenkipay-api-sdk-java/Release/SDK-Java"; then
+            echo "Dir ../../../zenkipay-api-sdk-java/Release/SDK-Java exists."
           else
-            mkdir ../../../Release/SDK-Java
+            mkdir ../../../zenkipay-api-sdk-java/Release/SDK-Java
           fi
-          if test -d "../../../Release/SDK-Java/v1.0.0"; then
-            echo "Dir ../../../Release/SDK-Java/v1.0.0 exists."
+          if test -d "../../../zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0"; then
+            echo "Dir ../../../zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0 exists."
           else
-            mkdir ../../../Release/SDK-Java/v1.0.0
+            mkdir ../../../zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0
           fi
           
           echo "Moviendo artefactos para hacer commit"
-          cp target/zenkipay-api-client-1.0.0-RELEASE.jar ../../../Release/SDK-Java/v1.0.0/
-          cp target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ../../../Release/SDK-Java/v1.0.0/
+          cp -rfv .github ../../../zenkipay-api-sdk-java
+          cp -rfv .openapi-generator ../../../zenkipay-api-sdk-java
+          cp -rfv api ../../../zenkipay-api-sdk-java
+          cp -rfv docs ../../../zenkipay-api-sdk-java
+          cp -rfv gradle ../../../zenkipay-api-sdk-java
+          cp -rfv src ../../../zenkipay-api-sdk-java
+          cp -rfv target/zenkipay-api-client-1.0.0-RELEASE.jar ../../../zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0/
+          cp -rfv target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ../../../zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0/
           pwd
           ls -la
+          ls -la ../../../zenkipay-api-sdk-java/
 
       - name: Subiendo librerías de SDK Java
         run: |
           pwd
           ls -la
-          ls -la Release/SDK-Java/v1.0.0/
+          cd zenkipay-api-sdk-java
+
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE.jar
-          git add Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar
+          git add zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE.jar
+          git add zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar
           git commit -m "Se suben cambios a clientes SDK por cambios en la especificación de API"
           git push
