@@ -75,7 +75,11 @@ jobs:
         run: |
           echo "Actualizando maven ci"
           cd build/zenkipay-sdk/java/.github/workflows
-          sed 's/8/17/g' maven.yml > maven_tmp.yml
+          sed 's/8/11/g' maven.yml > maven_tmp.yml
+          rm maven.yml
+          mv maven_tmp.yml maven.yml
+          
+          sed 's/Java CI with Maven/Run test/g' maven.yml > maven_tmp.yml
           rm maven.yml
           mv maven_tmp.yml maven.yml
 
@@ -118,10 +122,7 @@ jobs:
           cp -rfv src ../../../zenkipay-api-sdk-java
           cp -rfv .gitignore ../../../zenkipay-api-sdk-java
           cp -rfv .openapi-generator-ignore ../../../zenkipay-api-sdk-java
-          cp -rfv .travis.yml ../../../zenkipay-api-sdk-java
           cp -rfv build.gradle ../../../zenkipay-api-sdk-java
-          cp -rfv build.sbt ../../../zenkipay-api-sdk-java
-          cp -rfv git_push.sh ../../../zenkipay-api-sdk-java
           cp -rfv gradle.properties ../../../zenkipay-api-sdk-java
           cp -rfv gradlew ../../../zenkipay-api-sdk-java
           cp -rfv gradlew.bat ../../../zenkipay-api-sdk-java
