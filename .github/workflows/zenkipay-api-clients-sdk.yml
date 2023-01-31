@@ -22,12 +22,14 @@ jobs:
         with:
           repository: zenkifi/zenkipay-api
           path: zenkipay-api
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout repository zenkipay-api
         uses: actions/checkout@v3
         with:
           repository: zenkifi/zenkipay-api-sdk-java
           path: zenkipay-api-sdk-java
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Actualizando especificación de Zenkipay API
         run: |
