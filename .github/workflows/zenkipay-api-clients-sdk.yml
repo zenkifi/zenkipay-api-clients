@@ -38,10 +38,6 @@ jobs:
           echo "GITHUB_PATH -> $GITHUB_PATH"
 
           echo "Borrando archivo de especificación"
-          rm src/main/resources/Zenkipay-API-v1-EN.yaml
-
-          echo "Actualizando archivo de especificación"
-          cp zenkipay-api/Zenkipay-API-v1-EN.yaml src/main/resources/
 
       - name: Generando archivos de compilación basado en la versión de API enviada
         run: |
