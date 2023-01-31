@@ -68,9 +68,21 @@ jobs:
           mvn clean compile package --file pom.xml
           
           echo "Creando directorio con la versión por liberar"
-          mkdir ../../../Release
-          mkdir ../../../Release/SDK-Java
-          mkdir ../../../Release/SDK-Java/v1.0.0
+          if test -d "../../../Release"; then
+            echo "Dir ../../../Release exists."
+          else
+            mkdir ../../../Release
+          fi
+          if test -d "../../../Release/SDK-Java"; then
+            echo "Dir ../../../Release/SDK-Java exists."
+          else
+            mkdir ../../../Release/SDK-Java
+          fi
+          if test -d "../../../Release/SDK-Java/v1.0.0"; then
+            echo "Dir ../../../Release/SDK-Java/v1.0.0 exists."
+          else
+            mkdir ../../../Release/SDK-Java/v1.0.0
+          fi
           
           echo "Moviendo artefactos para hacer commit"
           cp target/zenkipay-api-client-1.0.0-RELEASE.jar ../../../Release/SDK-Java/v1.0.0/
@@ -83,7 +95,6 @@ jobs:
           pwd
           ls -la
           ls -la Release/SDK-Java/v1.0.0/
-          date > generated.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add Release/SDK-Java/v1.0.0/zenkipay-api-client-1.0.0-RELEASE.jar
