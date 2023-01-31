@@ -75,10 +75,10 @@ jobs:
         run: |
           echo "Actualizando maven ci"
           cd build/zenkipay-sdk/java/.github/workflows
-          sed 's/8/17/g' maven.yml > maven_tml.ymp
+          sed 's/8/17/g' maven.yml > maven_tmp.yml
           rm maven.yml
           mv maven_tmp.yml maven.yml
-          
+
       - name: SDK Java - Moviendo artefactos a directorio de liberaciones
         run: |
           echo "Actual Path"
