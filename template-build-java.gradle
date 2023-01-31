@@ -12,16 +12,14 @@ repositories {
 
 ext {
     // Global variables
-    // openApiVersion = "6.2.1"
     clientGeneratorName = 'java'
     clientGroup = 'fi.zenki.zenkipay'
-    clientVersion = '1.0.0'
+    clientVersion = '@:VERSION:@'  //1.0.0
     clientLanguage = 'EN'
 }
 
 dependencies {
-    //OpenAPI Generator
-    //compileOnly "org.openapitools:openapi-generator-gradle-plugin:${openApiVersion}"
+    // dependencies
 }
 
 openApiValidate {
@@ -42,7 +40,6 @@ openApiGenerate {
 
     // Build configuration
     inputSpec = "$projectDir/src/main/resources/Zenkipay-API-v1-EN.yaml".toString()
-    //remoteInputSpec = "https://github.com/zenkifi/zenkipay-api/blob/main/Zenkipay-API-v1-EN.yaml".toString()
     outputDir = "$projectDir/build/zenkipay-sdk/java".toString()
     validateSpec = true
     logger.info("projectDir:  $projectDir", "info")
@@ -73,7 +70,7 @@ openApiGenerate {
             developerOrganization : "Zenki",
             developerOrganizationUrl : "https://zenki.fi",
             licenseName : "This is licensed under the Apache 2.0 License - see the LICENSE file for details.",
-            licenseUrl : "https://github.com/zenkifi/zenkipay-api-clients-sdk",
+            licenseUrl : "https://github.com/zenkifi/zenkipay-api-sdk-java/blob/main/LICENSE",
             snapshotVersion : "false"
     ]
 }
