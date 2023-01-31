@@ -48,7 +48,7 @@ jobs:
           echo "Generando archivo build para compilar version actual en librerías"
           NewVersion=$(cat ZenkipayApiLastVersion.txt)
           echo $NewVersion
-          sed "s/@:VERSION:@/${{NewVersion}}/g" template-build-java.gradle > build-java.gradle
+          sed 's/@:VERSION:@/${{NewVersion}}/g' template-build-java.gradle > build-java.gradle
           cat build-java.gradle
 
 
