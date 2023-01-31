@@ -71,7 +71,10 @@ jobs:
           echo "Ejecutando Maven"
           cd build/zenkipay-sdk/java/
           ls -la
+          ls -la ../../../
+          ls -la ../../../zenkipay-api-sdk-java
           mvn clean compile package --file pom.xml
+          pwd
           
           echo "Creando directorio con la versión por liberar"
           if test -d "../../../zenkipay-api-sdk-java/Release"; then
@@ -90,6 +93,9 @@ jobs:
             mkdir ../../../zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0
           fi
           
+          ls -la ../../../
+          ls -la ../../../zenkipay-api-sdk-java
+          
           echo "Moviendo artefactos para hacer commit"
           cp -rfv .github ../../../zenkipay-api-sdk-java
           cp -rfv .openapi-generator ../../../zenkipay-api-sdk-java
@@ -101,6 +107,7 @@ jobs:
           cp -rfv target/zenkipay-api-client-1.0.0-RELEASE-javadoc.jar ../../../zenkipay-api-sdk-java/Release/SDK-Java/v1.0.0/
           pwd
           ls -la
+          ls -la ../../../
           ls -la ../../../zenkipay-api-sdk-java/
 
       - name: Subiendo librerías de SDK Java
