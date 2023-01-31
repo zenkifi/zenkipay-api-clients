@@ -132,13 +132,26 @@ jobs:
           ls -la
           cd zenkipay-api-sdk-java
 
+          echo "README original"
+          cat README.md
+
           echo "Reemplazar el titulo de la librería y agregar el badge"
           sed '1s/^/![example workflow](https:\/\/github.com\/zenkifi\/zenkipay-api-sdk-java\/actions\/workflows\/maven.yml\/badge.svg)\r\n/' README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
+          
+          echo "README con badge"
+          cat README.md
+          
           sed -l 's/# zenkipay-api-client/# Zenkipay API Client/g' README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
+          
+          echo "Version final de README"
+          cat README.md
+
+          pwd
+          ls -la
   
           git config user.name github-actions
           git config user.email github-actions@github.com
