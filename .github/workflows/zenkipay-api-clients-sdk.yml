@@ -22,14 +22,14 @@ jobs:
         with:
           repository: zenkifi/zenkipay-api
           path: zenkipay-api
-          repo-token: ${{ secrets.SECRET_CI_TOKEN }}
+          github_token: ${{ secrets.SECRET_CI_TOKEN }}
 
       - name: Checkout repository zenkipay-api
         uses: actions/checkout@v3
         with:
           repository: zenkifi/zenkipay-api-sdk-java
           path: zenkipay-api-sdk-java
-          repo-token: ${{ secrets.SECRET_CI_TOKEN }}
+          github_token: ${{ secrets.SECRET_CI_TOKEN }}
 
       - name: Actualizando especificación de Zenkipay API
         run: |
@@ -70,12 +70,10 @@ jobs:
           echo "Actual Path"
           pwd
           ls -la
-          echo "Ejecutando Maven"
           cd build/zenkipay-sdk/java/
           ls -la
           ls -la ../../../
           ls -la ../../../zenkipay-api-sdk-java
-          mvn clean compile package --file pom.xml
           pwd
           
           echo "Creando directorio con la versión por liberar"
