@@ -1,4 +1,5 @@
-# Zenkipay API Clients SDK ![example workflow](https://github.com/zenkifi/zenkipay-api-clients-sdk/actions/workflows/zenkipay-api-clients-sdk.yml/badge.svg) 
+![example workflow](https://github.com/zenkifi/zenkipay-api-clients-sdk/actions/workflows/zenkipay-api-clients-sdk.yml/badge.svg) 
+# Zenkipay API Clients SDK
 
 ##  Description
 Project that automates the generation of SDK's for different programming languages, with the aim of facilitating the integration to the Zenkipay API.
