@@ -185,7 +185,7 @@ jobs:
           git add pom.xml
           git add README.md
           git add settings.gradle
-          git add "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE.jar"
-          git add "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE-javadoc.jar"
+          git -f add "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE.jar"
+          git -f add "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE-javadoc.jar"
           git commit -m "Se suben cambios a clientes SDK por cambios en la especificación de API"
           git push
