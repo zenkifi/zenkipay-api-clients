@@ -13,7 +13,7 @@
 openapi: 3.0.0
 info:
   title: Zenkipay API
-  version: 1.0.1
+  version: 1.0.0
   contact:
     email: support@zenki.fi
     name: Support team
