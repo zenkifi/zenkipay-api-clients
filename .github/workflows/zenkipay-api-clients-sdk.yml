@@ -91,8 +91,8 @@ jobs:
       - name: SDK Java - Ejecutando Gradlew para generar los SDK's
         run: |
           echo "Ejecutando gradlew"
-          ./gradlew --stacktrace -b build-java.gradle clean openApiValidate openApiGenerate changePermission
-          ./gradlew --stacktrace -b build-php.gradle clean openApiValidate openApiGenerate
+          ./gradlew --stacktrace -b build-java.gradle openApiValidate openApiGenerate changePermission
+          ./gradlew --stacktrace -b build-php.gradle openApiValidate openApiGenerate
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para librería JAVA
