@@ -18,9 +18,13 @@ jobs:
     env:
       NewVersion:
     steps:
+      #+--------------------------------------------------------------------
+      #| Sección que realiza la descarga de repositorios
+      #+--------------------------------------------------------------------
+      #-----------[Repositorio orquestador de SDKs]-----------
       - name: Checkout local repository zenkipay-api-clients-sdk
         uses: actions/checkout@v3
-
+      #-----------[Repositorio con la especificación del API de Zenkipay]-----------
       - name: Checkout repository zenkipay-api
         uses: actions/checkout@v3
         with:
@@ -28,52 +32,71 @@ jobs:
           path: zenkipay-api
           token: ${{ secrets.SECRET_CI_TOKEN }}
 
-      - name: Checkout repository zenkipay-api
+      #-----------[Repositorio donde se depositara el código del SDK para JAVA]-----------
+      - name: Checkout repository zenkipay-api-sdk-java
         uses: actions/checkout@v3
         with:
           repository: zenkifi/zenkipay-api-sdk-java
           path: zenkipay-api-sdk-java
           token: ${{ secrets.SECRET_CI_TOKEN }}
 
+      #-----------[Repositorio donde se depositara el código del SDK para PHP]-----------
+      - name: Checkout repository zenkipay-api-sdk-php
+        uses: actions/checkout@v3
+        with:
+          repository: zenkifi/zenkipay-api-sdk-php
+          path: zenkipay-api-sdk-php
+          token: ${{ secrets.SECRET_CI_TOKEN }}
+
+      #+--------------------------------------------------------------------
+      #| Sección que realiza actualización de la última versión de la especificación y se obtiene la última versión
+      #+--------------------------------------------------------------------
       - name: Actualizando especificación de Zenkipay API
         run: |
-          echo "HOME -> $HOME"
-          echo "GITHUB_PATH -> $GITHUB_PATH"
-
           echo "Borrando archivo de especificación"
           rm src/main/resources/Zenkipay-API-v1-EN.yaml
 
           echo "Actualizandoarchivodeespecificación" 
           cp zenkipay-api/Zenkipay-API-v1-EN.yaml src/main/resources/
 
+      #-----------[Generando archivos finales gradle con versionado]-----------
       - name: Generando archivos de compilación basado en la versión de API enviada
         run: |
           echo "Generando archivo build para compilar version actual en librerías"
           NewVersion=$(cat ZenkipayApiLastVersion.txt)
-          echo $NewVersion
           echo "NewVersion=${NewVersion}" >> $GITHUB_ENV
-          echo "${{ env.NewVersion }}"
           sed "s/@:VERSION:@/$NewVersion/g" template-build-java.gradle > build-java.gradle
-          cat build-java.gradle
-          
+          sed "s/@:VERSION:@/$NewVersion/g" template-build-php.gradle > build-php.gradle
 
-
+      #+--------------------------------------------------------------------
+      #| Sección que configura JAVA como entorno para ejecutar comandos gradle
+      #+--------------------------------------------------------------------
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
 
+      #+--------------------------------------------------------------------
+      #| Sección que realiza la configuración del entorno Gradle
+      #+--------------------------------------------------------------------
       - name: Configurando Gradlew
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: release-candidate
 
+      #+--------------------------------------------------------------------
+      #| Sección que ejecuta los comandos Gradle para crear los SDK's automáticamente
+      #+--------------------------------------------------------------------
       - name: SDK Java - Ejecutando Gradlew para generar los SDK's
         run: |
           echo "Ejecutando gradlew"
-           ./gradlew --stacktrace -b build-java.gradle clean openApiValidate openApiGenerate changePermission
+          ./gradlew --stacktrace -b build-java.gradle clean openApiValidate openApiGenerate changePermission
+          ./gradlew --stacktrace -b build-php.gradle clean openApiValidate openApiGenerate
 
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para librería JAVA
+      #+--------------------------------------------------------------------
       - name: SDK Java - Ejecutando maven para generar librerías de cliente
         run: |
           echo "Actual Path"
@@ -95,16 +118,7 @@ jobs:
 
       - name: SDK Java - Moviendo artefactos a directorio de liberaciones
         run: |
-          echo "Actual Path"
-          echo "${{ env.NewVersion }}"
-          pwd
-          ls -la
-          cd build/zenkipay-sdk/java/
-          ls -la
-          ls -la ../../../
-          ls -la ../../../zenkipay-api-sdk-java
-          pwd
-          
+          cd build/zenkipay-sdk/java/          
           echo "Creando directorio con la versión por liberar"
           if test -d "../../../zenkipay-api-sdk-java/Release"; then
             echo "Dir ../../../zenkipay-api-sdk-java/Release exists."
@@ -125,9 +139,6 @@ jobs:
             echo "Dir ../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion created."
           fi
           
-          ls -la ../../../
-          ls -la ../../../zenkipay-api-sdk-java
-          
           echo "Moviendo artefactos para hacer commit"
           cp -rfv .github ../../../zenkipay-api-sdk-java
           cp -rfv api ../../../zenkipay-api-sdk-java
@@ -144,38 +155,20 @@ jobs:
           cp -rfv settings.gradle ../../../zenkipay-api-sdk-java
           cp -rfv "target/zenkipay-api-client-$NewVersion-RELEASE.jar" "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion/"
           cp -rfv "target/zenkipay-api-client-$NewVersion-RELEASE-javadoc.jar" "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion/"
-          pwd
-          ls -la
-          ls -la ../../../
-          ls -la ../../../zenkipay-api-sdk-java/
 
       - name: Subiendo librerías de SDK Java
         run: |
-          pwd
-          ls -la
           cd zenkipay-api-sdk-java
-
-          echo "README original"
-          cat README.md
-
           echo "Reemplazar el titulo de la librería y agregar el badge"
           sed '1s/^/![example workflow](https:\/\/github.com\/zenkifi\/zenkipay-api-sdk-java\/actions\/workflows\/maven.yml\/badge.svg)\r\n/' README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
           
-          echo "README con badge"
-          cat README.md
-          
+          echo "README con badge"          
           sed 's/# zenkipay-api-client/# Zenkipay API SDK for JAVA/g' README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
-          
-          echo "Version final de README"
-          cat README.md
-
-          pwd
-          ls -la
-  
+            
           git config user.name github-actions
           git config user.email github-actions@github.com
           echo "Haciendo commit"
@@ -194,5 +187,69 @@ jobs:
           git add settings.gradle
           git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE.jar"
           git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE-javadoc.jar"
+          git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
+          git push
+
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para librería PHP
+      #+--------------------------------------------------------------------
+      - name: SDK PHP - Moviendo artefactos a directorio de liberaciones
+        run: |
+          cd build/zenkipay-sdk/php/          
+          echo "Creando directorio con la versión por liberar"
+          if test -d "../../../zenkipay-api-sdk-php/Release"; then
+            echo "Dir ../../../zenkipay-api-sdk-php/Release exists."
+          else
+            mkdir ../../../zenkipay-api-sdk-php/Release
+            echo "Dir ../../../zenkipay-api-sdk-php/Release created."
+          fi
+          if test -d "../../../zenkipay-api-sdk-php/Release/SDK-php"; then
+            echo "Dir ../../../zenkipay-api-sdk-php/Release/SDK-php exists."
+          else
+            mkdir ../../../zenkipay-api-sdk-php/Release/SDK-php
+            echo "Dir ../../../zenkipay-api-sdk-php/Release/SDK-php created."
+          fi
+          if test -d "../../../zenkipay-api-sdk-php/Release/SDK-php/v$NewVersion"; then
+            echo "Dir ../../../zenkipay-api-sdk-php/Release/SDK-php/v$NewVersion exists."
+          else
+            mkdir "../../../zenkipay-api-sdk-php/Release/SDK-php/v$NewVersion"
+            echo "Dir ../../../zenkipay-api-sdk-php/Release/SDK-php/v$NewVersion created."
+          fi
+          
+          echo "Moviendo artefactos para hacer commit"
+          cp -rfv docs ../../../zenkipay-api-sdk-php
+          cp -rfv lib ../../../zenkipay-api-sdk-php
+          cp -rfv test ../../../zenkipay-api-sdk-php
+          cp -rfv .gitignore ../../../zenkipay-api-sdk-php
+          cp -rfv .php-cs-fixer.dist.php ../../../zenkipay-api-sdk-php
+          cp -rfv composer.json ../../../zenkipay-api-sdk-php
+          cp -rfv phpunit.xml.dist ../../../zenkipay-api-sdk-php
+          cp -rfv README.md ../../../zenkipay-api-sdk-php
+
+
+      - name: Subiendo librerías de SDK php
+        run: |
+          cd zenkipay-api-sdk-php
+          echo "Reemplazar el titulo de la librería y agregar el badge"
+          sed '1s/^/![example workflow](https:\/\/github.com\/zenkifi\/zenkipay-api-sdk-php\/actions\/workflows\/maven.yml\/badge.svg)\r\n/' README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+          
+          echo "README con badge"          
+          sed 's/# zenkipay-api-client/# Zenkipay API SDK for PHP/g' README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+          
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          echo "Haciendo commit"
+          git add docs
+          git add lib
+          git add test
+          git add .gitignore
+          git add .php-cs-fixer.dist.php
+          git add composer.json
+          git add phpunit.xml.dist
+          git add README.md
           git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
           git push

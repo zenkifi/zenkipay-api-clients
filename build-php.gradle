@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+    id "org.openapi.generator" version "6.2.1"
+}
+
+// Gradlew variables
+sourceCompatibility = '18'
+
+repositories {
+    //Extra repositories
+}
+
+ext {
+    // Global variables
+    clientGeneratorName = 'php'
+    clientGroup = 'fi.zenki.zenkipay'
+    clientVersion = '1.0.0'
+    clientLanguage = 'EN'
+}
+
+dependencies {
+    // dependencies
+}
+
+openApiValidate {
+    logger.info("projectDir:  $projectDir", "info")
+    inputSpec = "$projectDir/src/main/resources/Zenkipay-API-v1-EN.yaml".toString()
+    recommend = true
+}
+
+openApiGenerate {
+    // Global properties
+    globalProperties = [
+            verbose: "true"
+    ]
+
+    // General properties
+    generatorName = "${clientGeneratorName}"
+
+    // Build configuration
+    inputSpec = "$projectDir/src/main/resources/Zenkipay-API-v1-EN.yaml".toString()
+    outputDir = "$projectDir/build/zenkipay-sdk/php".toString()
+    validateSpec = true
+    logger.info("projectDir:  $projectDir", "info")
+
+    // Project Properties
+    invokerPackage = "fi.zenki.zenkipay.api"
+    apiPackage = "fi.zenki.zenkipay.api.services"
+    modelPackage = "fi.zenki.zenkipay.api.model"
+
+    // Generated Artifacts - pom.xml/build.gradle
+    id = "zenkipay-api-client"
+    groupId = "${clientGroup}"
+    version = "${clientVersion}-RELEASE"
+
+    // Client configurations
+    httpUserAgent = "Zenkipay-API-Client/${clientGeneratorName}/${clientVersion}/${clientLanguage}".toString()
+
+    // Pre Build project
+
+    //Generator options
+    configOptions = [
+            dateLibrary: "java8",
+            artifactDescription: "Zenkipay API REST Client",
+            artifactUrl: "https://zenki.fi",
+            developerEmail : "support@zenki.fi",
+            developerName : "Zenkipay Developer team",
+            developerOrganization : "Zenki",
+            developerOrganizationUrl : "https://zenki.fi",
+            licenseName : "This is licensed under the Apache 2.0 License - see the LICENSE file for details.",
+            licenseUrl : "https://github.com/zenkifi/zenkipay-api-sdk-php/blob/main/LICENSE",
+            snapshotVersion : "false"
+    ]
+}
