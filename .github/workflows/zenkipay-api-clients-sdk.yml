@@ -167,7 +167,7 @@ jobs:
           rm README.md
           mv README_tmp.md README.md
           
-          echo "README con badge"          
+          echo "Ajustar titulo de README"          
           sed 's/# zenkipay-api-client/# Zenkipay API SDK for JAVA/g' README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
@@ -234,6 +234,17 @@ jobs:
           cp -rfv composer.json ../../../zenkipay-api-sdk-php
           cp -rfv phpunit.xml.dist ../../../zenkipay-api-sdk-php
           cp -rfv README.md ../../../zenkipay-api-sdk-php
+
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para agregar badge a README PHP
+      #+--------------------------------------------------------------------
+      - name: Se agrega badge a archivo README.md
+        run: |
+          cd zenkipay-api-sdk-php
+          echo "Ajustar titulo de README"          
+          sed 's/# OpenAPIClient-php/# Zenkipay API SDK for PHP/g' README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para Subir librerías al Repositorio dedicado para el SDK PHP
