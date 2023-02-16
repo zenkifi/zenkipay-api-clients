@@ -206,24 +206,31 @@ jobs:
           cd zenkipay-api-sdk-java            
           git config user.name github-actions
           git config user.email github-actions@github.com
-          echo "Haciendo commit"
-          git add .github
-          git add api
-          git add docs
-          git add gradle
-          git add src
-          git add .gitignore
-          git add build.gradle
-          git add gradle.properties
-          git add gradlew
-          git add gradlew.bat
-          git add pom.xml
-          git add README.md
-          git add settings.gradle
-          git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE.jar"
-          git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE-javadoc.jar"
-          git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
-          git push
+
+          RepoStatus=$(git status -uno | grep "up to date") 
+          echo "$RepoStatus"
+          if [ "$RepoStatus" = "Your branch is up to date with 'origin/main'." ]; then
+            echo "No ha habido cambios en el repositorio $RepoStatus"
+          else
+            echo "Haciendo commit"
+            git add .github
+            git add api
+            git add docs
+            git add gradle
+            git add src
+            git add .gitignore
+            git add build.gradle
+            git add gradle.properties
+            git add gradlew
+            git add gradlew.bat
+            git add pom.xml
+            git add README.md
+            git add settings.gradle
+            git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE.jar"
+            git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE-javadoc.jar"
+            git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
+            git push
+          fi
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para librería PHP
@@ -280,17 +287,23 @@ jobs:
           cd zenkipay-api-sdk-php          
           git config user.name github-actions
           git config user.email github-actions@github.com
-          echo "Haciendo commit"
-          git add docs
-          git add lib
-          git add test
-          git add .gitignore
-          git add .php-cs-fixer.dist.php
-          git add composer.json
-          git add phpunit.xml.dist
-          git add README.md
-          git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
-          git push
+          RepoStatus=$(git status -uno | grep "up to date") 
+          echo "$RepoStatus"
+          if [ "$RepoStatus" = "Your branch is up to date with 'origin/main'." ]; then
+            echo "No ha habido cambios en el repositorio $RepoStatus"
+          else
+            echo "Haciendo commit"
+            git add docs
+            git add lib
+            git add test
+            git add .gitignore
+            git add .php-cs-fixer.dist.php
+            git add composer.json
+            git add phpunit.xml.dist
+            git add README.md
+            git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
+            git push
+          fi
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para librería Python
