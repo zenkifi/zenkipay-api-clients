@@ -352,9 +352,6 @@ jobs:
         run: |
           cd zenkipay-api-sdk-python
           echo "Reemplazar el titulo de la librería y agregar el badge"
-          sed '1s/^/![example workflow](https:\/\/github.com\/zenkifi\/zenkipay-api-sdk-python\/actions\/workflows\/maven.yml\/badge.svg)\r\n/' README.md > README_tmp.md
-          rm README.md
-          mv README_tmp.md README.md
           
           echo "README con badge"          
           sed 's/# zenkipay-api-client/# Zenkipay API SDK for Python/g' README.md > README_tmp.md
