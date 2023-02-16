@@ -48,6 +48,30 @@ jobs:
           path: zenkipay-api-sdk-php
           token: ${{ secrets.SECRET_CI_TOKEN }}
 
+      #-----------[Repositorio donde se depositara el código del SDK para Android]-----------
+      - name: Checkout repository zenkipay-api-sdk-android
+        uses: actions/checkout@v3
+        with:
+          repository: zenkifi/zenkipay-api-sdk-android
+          path: zenkipay-api-sdk-android
+          token: ${{ secrets.SECRET_CI_TOKEN }}
+
+      #-----------[Repositorio donde se depositara el código del SDK para Node]-----------
+      - name: Checkout repository zenkipay-api-sdk-node
+        uses: actions/checkout@v3
+        with:
+          repository: zenkifi/zenkipay-api-sdk-node
+          path: zenkipay-api-sdk-node
+          token: ${{ secrets.SECRET_CI_TOKEN }}
+
+      #-----------[Repositorio donde se depositara el código del SDK para Python]-----------
+      - name: Checkout repository zenkipay-api-sdk-python
+        uses: actions/checkout@v3
+        with:
+          repository: zenkifi/zenkipay-api-sdk-python
+          path: zenkipay-api-sdk-python
+          token: ${{ secrets.SECRET_CI_TOKEN }}
+
       #+--------------------------------------------------------------------
       #| Sección que realiza actualización de la última versión de la especificación y se obtiene la última versión
       #+--------------------------------------------------------------------
@@ -67,6 +91,7 @@ jobs:
           echo "NewVersion=${NewVersion}" >> $GITHUB_ENV
           sed "s/@:VERSION:@/$NewVersion/g" template-build-java.gradle > build-java.gradle
           sed "s/@:VERSION:@/$NewVersion/g" template-build-php.gradle > build-php.gradle
+          sed "s/@:VERSION:@/$NewVersion/g" template-build-python.gradle > build-python.gradle
 
       #+--------------------------------------------------------------------
       #| Sección que configura JAVA como entorno para ejecutar comandos gradle
@@ -93,6 +118,7 @@ jobs:
           echo "Ejecutando gradlew"
           ./gradlew --stacktrace -b build-java.gradle openApiValidate openApiGenerate changePermission
           ./gradlew --stacktrace -b build-php.gradle openApiValidate openApiGenerate
+          ./gradlew --stacktrace -b build-python.gradle openApiValidate openApiGenerate
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para librería JAVA
@@ -263,5 +289,85 @@ jobs:
           git add composer.json
           git add phpunit.xml.dist
           git add README.md
+          git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
+          git push
+
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para librería Python
+      #+--------------------------------------------------------------------
+      - name: SDK Python - Moviendo artefactos a directorio de liberaciones
+        run: |
+          cd build/zenkipay-sdk/python/          
+          echo "Creando directorio con la versión por liberar"
+          if test -d "../../../zenkipay-api-sdk-python/Release"; then
+            echo "Dir ../../../zenkipay-api-sdk-python/Release exists."
+          else
+            mkdir ../../../zenkipay-api-sdk-python/Release
+            echo "Dir ../../../zenkipay-api-sdk-python/Release created."
+          fi
+          if test -d "../../../zenkipay-api-sdk-python/Release/SDK-Python"; then
+            echo "Dir ../../../zenkipay-api-sdk-python/Release/SDK-Python exists."
+          else
+            mkdir ../../../zenkipay-api-sdk-python/Release/SDK-Python
+            echo "Dir ../../../zenkipay-api-sdk-python/Release/SDK-Python created."
+          fi
+          if test -d "../../../zenkipay-api-sdk-python/Release/SDK-Python/v$NewVersion"; then
+            echo "Dir ../../../zenkipay-api-sdk-python/Release/SDK-Python/v$NewVersion exists."
+          else
+            mkdir "../../../zenkipay-api-sdk-python/Release/SDK-Python/v$NewVersion"
+            echo "Dir ../../../zenkipay-api-sdk-python/Release/SDK-Python/v$NewVersion created."
+          fi
+          
+          echo "Moviendo artefactos para hacer commit"
+          cp -rfv .gitignore ../../../zenkipay-api-sdk-python
+          cp -rfv README.md ../../../zenkipay-api-sdk-python
+          cp -rfv docs ../../../zenkipay-api-sdk-python
+          cp -rfv test ../../../zenkipay-api-sdk-python
+          cp -rfv zenkipay-api-client ../../../zenkipay-api-sdk-python
+          cp -rfv .gitlab-ci.yml ../../../zenkipay-api-sdk-python
+          cp -rfv .travis.yml ../../../zenkipay-api-sdk-python
+          cp -rfv requirements.txt ../../../zenkipay-api-sdk-python
+          cp -rfv setup.cfg ../../../zenkipay-api-sdk-python
+          cp -rfv setup.py ../../../zenkipay-api-sdk-python
+          cp -rfv test-requirements.txt ../../../zenkipay-api-sdk-python
+          cp -rfv tox.ini ../../../zenkipay-api-sdk-python
+
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para agregar badge a README Python
+      #+--------------------------------------------------------------------
+      - name: Se agrega badge a archivo README.md
+        run: |
+          cd zenkipay-api-sdk-python
+          echo "Reemplazar el titulo de la librería y agregar el badge"
+          sed '1s/^/![example workflow](https:\/\/github.com\/zenkifi\/zenkipay-api-sdk-python\/actions\/workflows\/maven.yml\/badge.svg)\r\n/' README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+          
+          echo "README con badge"          
+          sed 's/# zenkipay-api-client/# Zenkipay API SDK for Python/g' README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para Subir librerías al Repositorio dedicado para el SDK Python
+      #+--------------------------------------------------------------------
+      - name: Subiendo librerías de SDK Python
+        run: |
+          cd zenkipay-api-sdk-python          
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          echo "Haciendo commit"
+          git add .gitignore
+          git add README.md
+          git add docs
+          git add test
+          git add zenkipay-api-client
+          git add .gitlab-ci.yml
+          git add .travis.yml
+          git add requirements.txt
+          git add setup.cfg
+          git add setup.py
+          git add test-requirements.txt
+          git add tox.ini
           git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
           git push
