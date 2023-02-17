@@ -359,7 +359,7 @@ jobs:
           mv README_tmp.md README.md
 
       #+--------------------------------------------------------------------
-      #| Sección de trabajo para Subir librerías al Repositorio dedicado para el SDK Python
+      #| Sección de trabajo para Subir librerías al Repositorio dedicado para el SDK Python - test
       #+--------------------------------------------------------------------
       - name: Subiendo librerías de SDK Python
         run: |
