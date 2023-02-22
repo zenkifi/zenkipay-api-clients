@@ -176,7 +176,7 @@ jobs:
           cp -rfv gradle.properties ../../../zenkipay-api-sdk-java
           cp -rfv gradlew ../../../zenkipay-api-sdk-java
           cp -rfv gradlew.bat ../../../zenkipay-api-sdk-java
-          cp -rfv pom.xml ../../../zenkipay-api-sdk-java
+          cp -rfv ../../../src/main/resources/java/pom.xml ../../../zenkipay-api-sdk-java
           cp -rfv README.md ../../../zenkipay-api-sdk-java
           cp -rfv settings.gradle ../../../zenkipay-api-sdk-java
           cp -rfv "target/zenkipay-api-client-$NewVersion-RELEASE.jar" "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion/"

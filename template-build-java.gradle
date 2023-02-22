@@ -52,7 +52,7 @@ openApiGenerate {
     // Generated Artifacts - pom.xml/build.gradle
     id = "zenkipay-api-client"
     groupId = "${clientGroup}"
-    version = "${clientVersion}-RELEASE"
+    version = "${clientVersion}-SNAPSHOT"
 
     // Client configurations
     httpUserAgent = "Zenkipay-API-Client/${clientGeneratorName}/${clientVersion}/${clientLanguage}".toString()
@@ -71,7 +71,10 @@ openApiGenerate {
             developerOrganizationUrl : "https://zenki.fi",
             licenseName : "This is licensed under the Apache 2.0 License - see the LICENSE file for details.",
             licenseUrl : "https://github.com/zenkifi/zenkipay-api-sdk-java/blob/main/LICENSE",
-            snapshotVersion : "false"
+            snapshotVersion : "false",
+            scmConnection :	"scm:git:https://github.com/zenkifi/zenkipay-api-sdk-java.git",
+            scmDeveloperConnection : "scm:git:https://github.com/zenkifi/zenkipay-api-sdk-java.git",
+            scmUrl : "https://github.com/zenkifi/zenkipay-api-sdk-java"
     ]
 }
 
