@@ -12,7 +12,7 @@ repositories {
 
 ext {
     // Global variables
-    clientGeneratorName = 'OPENAPI-GENERATOR-LANGUAJE'
+    clientGeneratorName = 'typescript-node'
     clientGroup = 'fi.zenki.zenkipay'
     clientVersion = '@:VERSION:@'
     clientLanguage = 'EN'
@@ -36,11 +36,10 @@ openApiGenerate {
 
     // General properties
     generatorName = "${clientGeneratorName}"
-    library = "OPENAPI-GENERATOR-LIBRARY"
 
     // Build configuration
     inputSpec = "$projectDir/src/main/resources/Zenkipay-API-v1-EN.yaml".toString()
-    outputDir = "$projectDir/build/zenkipay-sdk/LANGUAJE".toString()
+    outputDir = "$projectDir/build/zenkipay-sdk/typescript-node".toString()
     validateSpec = true
     logger.info("projectDir:  $projectDir", "info")
 
@@ -49,10 +48,14 @@ openApiGenerate {
     apiPackage = "fi.zenki.zenkipay.api.services"
     modelPackage = "fi.zenki.zenkipay.api.model"
 
-    // Generated Artifacts - pom.xml/build.gradle
+    // Generated Artifacts
     id = "zenkipay-api-client"
     groupId = "${clientGroup}"
-    version = "${clientVersion}-RELEASE"
+    version = "${clientVersion}-SNAPSHOT"
+    //npmName = "zenkipay-api-client"
+    //npmRepository = "${clientGroup}"
+    //npmVersion = "${clientVersion}-SNAPSHOT"
+    //snapshot = "true"
 
     // Client configurations
     httpUserAgent = "Zenkipay-API-Client/${clientGeneratorName}/${clientVersion}/${clientLanguage}".toString()
@@ -69,7 +72,7 @@ openApiGenerate {
             developerOrganization : "Zenki",
             developerOrganizationUrl : "https://zenki.fi",
             licenseName : "This is licensed under the Apache 2.0 License - see the LICENSE file for details.",
-            licenseUrl : "https://github.com/zenkifi/REPOSITORY_NAME/blob/main/LICENSE",
+            licenseUrl : "https://github.com/zenkifi/zenkipay-api-sdk-node/blob/main/LICENSE",
             snapshotVersion : "false"
     ]
 }

@@ -56,7 +56,7 @@ jobs:
           path: zenkipay-api-sdk-android
           token: ${{ secrets.SECRET_CI_TOKEN }}
 
-      #-----------[Repositorio donde se depositara el código del SDK para Node]-----------
+      #-----------[Repositorio donde se depositara el código del SDK para Typescript-Node]-----------
       - name: Checkout repository zenkipay-api-sdk-node
         uses: actions/checkout@v3
         with:
@@ -92,6 +92,7 @@ jobs:
           sed "s/@:VERSION:@/$NewVersion/g" template-build-java.gradle > build-java.gradle
           sed "s/@:VERSION:@/$NewVersion/g" template-build-php.gradle > build-php.gradle
           sed "s/@:VERSION:@/$NewVersion/g" template-build-python.gradle > build-python.gradle
+          sed "s/@:VERSION:@/$NewVersion/g" template-build-typescript-node.gradle > build-typescript-node.gradle
 
       #+--------------------------------------------------------------------
       #| Sección que configura JAVA como entorno para ejecutar comandos gradle
@@ -119,6 +120,7 @@ jobs:
           ./gradlew --stacktrace -b build-java.gradle openApiValidate openApiGenerate changePermission
           ./gradlew --stacktrace -b build-php.gradle openApiValidate openApiGenerate
           ./gradlew --stacktrace -b build-python.gradle openApiValidate openApiGenerate
+          ./gradlew --stacktrace -b build-typescript-node.gradle openApiValidate openApiGenerate
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para librería JAVA
@@ -389,4 +391,58 @@ jobs:
             git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
             git push
           fi
+
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para librería Typescript-Node
+      #+--------------------------------------------------------------------
+      - name: SDK Typescript-Node - Moviendo artefactos a directorio de liberaciones
+        run: |
+          cd build/zenkipay-sdk/typescript-node/          
+          echo "Creando directorio con la versión por liberar"
+          if test -d "../../../zenkipay-api-sdk-node/Release"; then
+            echo "Dir ../../../zenkipay-api-sdk-node/Release exists."
+          else
+            mkdir ../../../zenkipay-api-sdk-node/Release
+            echo "Dir ../../../zenkipay-api-sdk-node/Release created."
+          fi
+          if test -d "../../../zenkipay-api-sdk-node/Release/SDK-typescript-node"; then
+            echo "Dir ../../../zenkipay-api-sdk-node/Release/SDK-typescript-node exists."
+          else
+            mkdir ../../../zenkipay-api-sdk-node/Release/SDK-typescript-node
+            echo "Dir ../../../zenkipay-api-sdk-node/Release/SDK-typescript-node created."
+          fi
+          if test -d "../../../zenkipay-api-sdk-node/Release/SDK-typescript-node/v$NewVersion"; then
+            echo "Dir ../../../zenkipay-api-sdk-node/Release/SDK-typescript-node/v$NewVersion exists."
+          else
+            mkdir "../../../zenkipay-api-sdk-node/Release/SDK-typescript-node/v$NewVersion"
+            echo "Dir ../../../zenkipay-api-sdk-node/Release/SDK-typescript-node/v$NewVersion created."
+          fi
+          
+          echo "Moviendo artefactos para hacer commit"
+          cp -rfv .gitignore ../../../zenkipay-api-sdk-node
+          cp -rfv fi ../../../zenkipay-api-sdk-node
+
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para agregar badge a README Typescript-Node
+      #+--------------------------------------------------------------------
+      - name: Se agrega badge a archivo README.md
+        run: |
+          cd zenkipay-api-sdk-node
+          echo "Reemplazar el titulo de la librería y agregar el badge"
+          sed 's/zenkipay-api-sdk-node/# Zenkipay API SDK for Typescript-Node/g' README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+
+      #+--------------------------------------------------------------------
+      #| Sección de trabajo para Subir librerías al Repositorio dedicado para el SDK Typescript-Node
+      #+--------------------------------------------------------------------
+      - name: Subiendo librerías de SDK Typescript-Node
+        run: |
+          cd zenkipay-api-sdk-node          
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          echo "Haciendo commit"
+          git add fi
+          git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
+          git push
 
