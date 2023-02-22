@@ -203,15 +203,17 @@ jobs:
       #+--------------------------------------------------------------------
       - name: Subiendo librerías de SDK Java
         run: |
-          cd zenkipay-api-sdk-java            
+          pwd
+          cd zenkipay-api-sdk-java
+          pwd
+          ls -la
+          
           git config user.name github-actions
           git config user.email github-actions@github.com
 
           RepoStatus=$(git status -uno | grep "up to date") 
           echo "$RepoStatus"
-          if [ "$RepoStatus" = "Your branch is up to date with 'origin/main'." ]; then
-            echo "No ha habido cambios en el repositorio $RepoStatus"
-          else
+          
             echo "Haciendo commit"
             git add .github
             git add api
@@ -230,7 +232,7 @@ jobs:
             git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-SNAPSHOT-javadoc.jar"
             git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
             git push
-          fi
+          
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para librería PHP
