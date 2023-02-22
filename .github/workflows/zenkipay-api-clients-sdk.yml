@@ -179,8 +179,8 @@ jobs:
           cp -rfv ../../../src/main/resources/java/pom.xml ../../../zenkipay-api-sdk-java
           cp -rfv README.md ../../../zenkipay-api-sdk-java
           cp -rfv settings.gradle ../../../zenkipay-api-sdk-java
-          cp -rfv "target/zenkipay-api-client-$NewVersion-RELEASE.jar" "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion/"
-          cp -rfv "target/zenkipay-api-client-$NewVersion-RELEASE-javadoc.jar" "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion/"
+          cp -rfv "target/zenkipay-api-client-$NewVersion-SNAPSHOT.jar" "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion/"
+          cp -rfv "target/zenkipay-api-client-$NewVersion-SNAPSHOT-javadoc.jar" "../../../zenkipay-api-sdk-java/Release/SDK-Java/v$NewVersion/"
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para agregar badge a README JAVA
@@ -226,8 +226,8 @@ jobs:
             git add pom.xml
             git add README.md
             git add settings.gradle
-            git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE.jar"
-            git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-RELEASE-javadoc.jar"
+            git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-SNAPSHOT.jar"
+            git add --force "Release/SDK-Java/v$NewVersion/zenkipay-api-client-$NewVersion-SNAPSHOT-javadoc.jar"
             git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
             git push
           fi
