@@ -366,18 +366,24 @@ jobs:
           cd zenkipay-api-sdk-python          
           git config user.name github-actions
           git config user.email github-actions@github.com
-          echo "Haciendo commit"
-          git add .gitignore
-          git add README.md
-          git add docs
-          git add test
-          git add zenkipay-api-client
-          git add .gitlab-ci.yml
-          git add .travis.yml
-          git add requirements.txt
-          git add setup.cfg
-          git add setup.py
-          git add test-requirements.txt
-          git add tox.ini
-          git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
-          git push
+          RepoStatus=$(git status -uno | grep "up to date") 
+          echo "$RepoStatus"
+          if [ "$RepoStatus" = "Your branch is up to date with 'origin/main'." ]; then
+            echo "No ha habido cambios en el repositorio $RepoStatus"
+          else
+            echo "Haciendo commit"
+            git add .gitignore
+            git add README.md
+            git add docs
+            git add test
+            git add zenkipay-api-client
+            git add .gitlab-ci.yml
+            git add .travis.yml
+            git add requirements.txt
+            git add setup.cfg
+            git add setup.py
+            git add test-requirements.txt
+            git add tox.ini
+            git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
+            git push
+          fi
