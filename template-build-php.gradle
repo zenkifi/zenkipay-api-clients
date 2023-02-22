@@ -44,14 +44,12 @@ openApiGenerate {
     logger.info("projectDir:  $projectDir", "info")
 
     // Project Properties
-    invokerPackage = "fi.zenki.zenkipay.api"
-    apiPackage = "fi.zenki.zenkipay.api.services"
-    modelPackage = "fi.zenki.zenkipay.api.model"
+    invokerPackage = "Zenkipay"
+    apiPackage = "Services"
+    modelPackage = "Model"
 
-    // Generated Artifacts - pom.xml/build.gradle
+    // Generated Artifacts
     id = "zenkipay-api-client"
-    groupId = "${clientGroup}"
-    version = "${clientVersion}-RELEASE"
 
     // Client configurations
     httpUserAgent = "Zenkipay-API-Client/${clientGeneratorName}/${clientVersion}/${clientLanguage}".toString()
@@ -60,6 +58,7 @@ openApiGenerate {
 
     //Generator options
     configOptions = [
+            name: "zenki/zenkipay-api-client",
             dateLibrary: "java8",
             artifactDescription: "Zenkipay API REST Client",
             artifactUrl: "https://zenki.fi",
