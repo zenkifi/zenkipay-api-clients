@@ -288,6 +288,10 @@ jobs:
           sed "s/@:BUILD-DATE:@/$timex/g" README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
+          
+          sed 's/apiInstance = new Zenkipay/apiInstance = new \Zenkipay/g' README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para Subir librerías al Repositorio dedicado para el SDK PHP
