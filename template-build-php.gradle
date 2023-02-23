@@ -45,7 +45,7 @@ openApiGenerate {
 
     // Project Properties
     invokerPackage = "Zenkipay"
-    apiPackage = "Services"
+    apiPackage = "Api"
     modelPackage = "Model"
 
     // Generated Artifacts
