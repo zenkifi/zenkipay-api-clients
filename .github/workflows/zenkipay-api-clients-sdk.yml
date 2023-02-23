@@ -278,6 +278,16 @@ jobs:
           sed 's/# OpenAPIClient-php/# Zenkipay API SDK for PHP/g' README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
+          
+          sed "s/### Requirements/Build date: @:BUILD-DATE:@ \r\n ### Requirements/g" README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+
+          timex=$(date)
+          echo "timex=${timex}"
+          sed "s/@:BUILD-DATE:@/$timex/g" README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
 
       #+--------------------------------------------------------------------
       #| Sección de trabajo para Subir librerías al Repositorio dedicado para el SDK PHP
@@ -351,6 +361,16 @@ jobs:
           echo "README con badge"          
           sed 's/# zenkipay-api-client/# Zenkipay API SDK for Python/g' README.md > README_tmp.md
           rm README.md
+          mv README_tmp.md README.md          
+          
+          sed "s/## Requirements./Build date: @:BUILD-DATE:@ \r\n ## Requirements./g" README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+
+          timex=$(date)
+          echo "timex=${timex}"
+          sed "s/@:BUILD-DATE:@/$timex/g" README.md > README_tmp.md
+          rm README.md
           mv README_tmp.md README.md
 
       #+--------------------------------------------------------------------
@@ -412,9 +432,24 @@ jobs:
       #+--------------------------------------------------------------------
       - name: Se agrega badge a archivo README.md
         run: |
+          cp -rfv ./src/main/resources/node/README.md ./zenkipay-api-sdk-node
           cd zenkipay-api-sdk-node
+          
+          echo "Reemplazar la versión y fecha en README"
+          NewVersion=$(cat ZenkipayApiLastVersion.txt)
+          echo "NewVersion=${NewVersion}" >> $GITHUB_ENV
+          sed "s/@:VERSION:@/$NewVersion/g" README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+          
+          timex=$(date)
+          echo "timex=${timex}"
+          sed "s/@:BUILD-DATE:@/$timex/g" README.md > README_tmp.md
+          rm README.md
+          mv README_tmp.md README.md
+          
           echo "Reemplazar el titulo de la librería y agregar el badge"
-          sed 's/zenkipay-api-sdk-node/# Zenkipay API SDK for Typescript-Node/g' README.md > README_tmp.md
+          sed 's/# zenkipay-api-sdk-node/# Zenkipay API SDK for Typescript-Node/g' README.md > README_tmp.md
           rm README.md
           mv README_tmp.md README.md
 
@@ -432,4 +467,3 @@ jobs:
           git add --force .gitignore
           git commit -m "Re-generación de SDKs por cambios en especificación de API $NewVersion"
           git push
-
