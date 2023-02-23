@@ -436,7 +436,7 @@ jobs:
           cd zenkipay-api-sdk-node
           
           echo "Reemplazar la versión y fecha en README"
-          NewVersion=$(cat ZenkipayApiLastVersion.txt)
+          NewVersion=$(cat ../ZenkipayApiLastVersion.txt)
           echo "NewVersion=${NewVersion}" >> $GITHUB_ENV
           sed "s/@:VERSION:@/$NewVersion/g" README.md > README_tmp.md
           rm README.md
