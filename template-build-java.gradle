@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "org.openapi.generator" version "6.2.1"
+    id "org.openapi.generator" version "6.3.0"
 }
 
 // Gradlew variables
@@ -36,7 +36,7 @@ openApiGenerate {
 
     // General properties
     generatorName = "${clientGeneratorName}"
-    library = "native"
+    library = "apache-httpclient"
 
     // Build configuration
     inputSpec = "$projectDir/src/main/resources/Zenkipay-API-v1-EN.yaml".toString()
@@ -52,7 +52,7 @@ openApiGenerate {
     // Generated Artifacts - pom.xml/build.gradle
     id = "zenkipay-api-client"
     groupId = "${clientGroup}"
-    version = "${clientVersion}-SNAPSHOT"
+    version = "${clientVersion}"
 
     // Client configurations
     httpUserAgent = "Zenkipay-API-Client/${clientGeneratorName}/${clientVersion}/${clientLanguage}".toString()
@@ -71,7 +71,7 @@ openApiGenerate {
             developerOrganizationUrl : "https://zenki.fi",
             licenseName : "This is licensed under the Apache 2.0 License - see the LICENSE file for details.",
             licenseUrl : "https://github.com/zenkifi/zenkipay-api-sdk-java/blob/main/LICENSE",
-            snapshotVersion : "false",
+            snapshotVersion : "true",
             scmConnection :	"scm:git:https://github.com/zenkifi/zenkipay-api-sdk-java.git",
             scmDeveloperConnection : "scm:git:https://github.com/zenkifi/zenkipay-api-sdk-java.git",
             scmUrl : "https://github.com/zenkifi/zenkipay-api-sdk-java"
